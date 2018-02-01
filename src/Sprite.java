@@ -40,6 +40,7 @@ public class Sprite {
         g2.rotate(rotationRequired, loc.x+halfWidth, loc.y+halfHeight);
         g2.drawImage(pic, loc.x, loc.y, null);
         g2.rotate(-rotationRequired, loc.x+halfWidth, loc.y+halfHeight);
+        g2.draw(getBoundingRectangle());
     }
 
     /**
@@ -50,6 +51,14 @@ public class Sprite {
         int dy = -(int) (Math.sin(Math.toRadians(dir)) * speed);
         loc.translate(dx, dy);
     }
+
+    /**
+     Returns true if this Sprite intersects the other Sprite
+     */
+    public boolean intersects(Sprite other){
+        return getBoundingRectangle().intersects(other.getBoundingRectangle());
+    }
+
 
     /**
      * Changes the image file that this Sprite uses to draw.
@@ -86,12 +95,16 @@ public class Sprite {
 
     /**
      * Returns a Rectangle object that surrounds this Sprite's pic.
-     * Useful for hit detection.
+     * Useful for hit detection.  Really useful.
      *
      * @return the bounding Rectangle.
      */
     public Rectangle getBoundingRectangle() {
-        return new Rectangle(loc.x, loc.y, pic.getWidth(), pic.getHeight());
+        if(facingNorth() || facingSouth())
+            return new Rectangle(loc.x, loc.y, pic.getWidth(), pic.getHeight());
+        else
+            return new Rectangle(loc.x, loc.y, pic.getHeight(), pic.getWidth());
+
     }
 
     /**
@@ -182,13 +195,6 @@ public class Sprite {
      */
     public Point getCenterPoint(){
         return new Point(loc.x + pic.getWidth()/2, loc.y + pic.getHeight()/2);
-    }
-
-    /**
-     Returns true if this Sprite intersects the other Sprite
-     */
-    public boolean intersects(Sprite other){
-        return getBoundingRectangle().intersects(other.getBoundingRectangle());
     }
 
     /**
