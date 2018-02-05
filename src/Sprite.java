@@ -40,7 +40,7 @@ public class Sprite {
         g2.rotate(rotationRequired, loc.x+halfWidth, loc.y+halfHeight);
         g2.drawImage(pic, loc.x, loc.y, null);
         g2.rotate(-rotationRequired, loc.x+halfWidth, loc.y+halfHeight);
-//        g2.draw(getBoundingRectangle());
+        g2.draw(getBoundingRectangle());
     }
 
     /**
@@ -100,10 +100,19 @@ public class Sprite {
      * @return the bounding Rectangle.
      */
     public Rectangle getBoundingRectangle() {
-        if(facingNorth() || facingSouth())
-            return new Rectangle(loc.x, loc.y, pic.getWidth(), pic.getHeight());
+        Rectangle box = null;
+        if(picOrientation % 180 != 0)
+            if(facingEast() || facingWest())
+                box = new Rectangle(loc.x, loc.y, pic.getHeight(), pic.getWidth());
+            else
+                box = new Rectangle(loc.x, loc.y, pic.getWidth(), pic.getHeight());
         else
-            return new Rectangle(loc.x, loc.y, pic.getHeight(), pic.getWidth());
+            if(facingEast() || facingWest())
+                box = new Rectangle(loc.x, loc.y, pic.getWidth(), pic.getHeight());
+            else
+                box = new Rectangle(loc.x, loc.y, pic.getHeight(), pic.getWidth());
+
+        return box;
 
     }
 

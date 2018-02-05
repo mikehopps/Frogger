@@ -14,6 +14,9 @@ public class FroggerMain extends JPanel {
     private Sprite frog;
     private ArrayList<Sprite> obstacles;
 
+    //TESTING
+    private Car car;
+
     public FroggerMain(){
 
         keys = new boolean[512]; //should be enough to hold any key code.
@@ -23,6 +26,7 @@ public class FroggerMain extends JPanel {
         //TODO: init obstacles arraylist
         //TODO: add obstacles - cars and stuff
 
+        car = new Car(400, 400, Sprite.EAST);
 
         timer = new Timer(40, new ActionListener() {
             @Override
@@ -39,10 +43,20 @@ public class FroggerMain extends JPanel {
                     frog.update();
                     keys[KeyEvent.VK_A] = false; //probably.  Makes 1 move per button press.
                 }
+                if(keys[KeyEvent.VK_S]){
+                    frog.setDir(Sprite.SOUTH);
+                    frog.update();
+                    keys[KeyEvent.VK_S] = false; //probably.  Makes 1 move per button press.
+                }
+                if(keys[KeyEvent.VK_D]){
+                    frog.setDir(Sprite.EAST);
+                    frog.update();
+                    keys[KeyEvent.VK_D] = false; //probably.  Makes 1 move per button press.
+                }
                 //TODO: implement other directions
 
                 //TODO: update each obstacle
-
+                car.update();
                 //TODO: check for collisions - frog vs obstacles
 
 
@@ -80,9 +94,8 @@ public class FroggerMain extends JPanel {
 
         frog.draw(g2);
 
-
         //TODO: draw all the obstacles.
-
+        car.draw(g2);
     }
 
     //sets ups the panel and frame.  Probably not much to modify here.
